@@ -1,0 +1,9 @@
+python-dotenv
+requests
+pandas
+pytest
+groq 
+pydantic 
+scikit-learn
+streamlit 
+plotly

@@ -1,0 +1,383 @@
+﻿kind,id,pr_number,split,pr_title,url,body,label
+review,4828299122,33806,dev,"Add return_as=""generator"" in parallel pairwise compute",https://github.com/scikit-learn/scikit-learn/pull/33806#pullrequestreview-4828299122,LGTM,
+review_comment,2126836656,31413,dev,FEAT (alt3) allow setting auto routed strategy on objects,https://github.com/scikit-learn/scikit-learn/pull/31413#discussion_r2126836656,"Should we prevent adding auto requests when `metadata_request_policy!=""auto""` ?
+```suggestion
+    def actualize_auto_requests(self):
+        if _auto_routing_enabled():
+            for param in self._auto_requests:
+                self.add_request(param=param, alias=True)
+        return self
+```",
+review_comment,917346371,16236,dev,FEA Group aware Time-based cross validation,https://github.com/scikit-learn/scikit-learn/pull/16236#discussion_r917346371,"```suggestion
+    The group labels should be contiguous such as the following:
+
+    .. code-block::
+
+        valid_groups = np.array([
+            'a', 'a', 'b', 'b', 'b', 'b', 'b', 'c', 'c', 'c', 'c', 'd', 'd', 'd'
+        ])
+```",
+review,5300898630,34832,dev,ENH Add categorical support for the forests,https://github.com/scikit-learn/scikit-learn/pull/34832#pullrequestreview-5300898630,"This looks ready to me :tada: nice work thanks!
+
+I was worried the deprecation cycle / future warning would spam every single user for the duration of one release, but we can limit firing the future warning to dataframes with a least one categorical column (which is likely very rare for an all numerical dataframe), so it's totally fine and I'm convinced it's the way to go :+1: ",
+review,5152081583,34906,dev,DOC Tweak git shortlog command for release contributors,https://github.com/scikit-learn/scikit-learn/pull/34906#pullrequestreview-5152081583,LGTM,
+review_comment,3951100294,34558,dev,Harden tree loading mechanisms to avoid segfaults due to loading corrupted data,https://github.com/scikit-learn/scikit-learn/pull/34558#discussion_r3951100294,Please shorten similar to above.,
+review_comment,4091299328,34313,dev,FIX always use logits in CalibratedClassifierCV,https://github.com/scikit-learn/scikit-learn/pull/34313#discussion_r4091299328,"```suggestion
+logit of the predicted probability; otherwise, :math:`f_i` is the value from
+```
+I never like this use of ""score"".
+But we can also go without change as the term is/was often used for that, too.",
+issue_comment,5775301167,34838,dev,DOC Document that HGBT min_samples_leaf ignores sample_weight,https://github.com/scikit-learn/scikit-learn/pull/34838#issuecomment-5775301167,THX @antoinebaker ,
+review_comment,3474060957,34376,dev,Accessibility - Fix code syntax highlighting errors (light mode),https://github.com/scikit-learn/scikit-learn/pull/34376#discussion_r3474060957,"```suggestion
+/* Needed to override the pydata sphinx theme's default */
+html[data-theme=""light""] .highlight pre {
+```",
+review,5335084188,35026,dev,Fix normalized BayesianRidge scores_ (#13852),https://github.com/scikit-learn/scikit-learn/pull/35026#pullrequestreview-5335084188,"Indeed, let's handle `ARDRegression` in a follow-up PR if needed (maybe it's not even needed).
+
+Otherwise see my comments below.",
+issue_comment,751520540,16236,dev,FEA Group aware Time-based cross validation,https://github.com/scikit-learn/scikit-learn/pull/16236#issuecomment-751520540,"@getgaurav2  Thank you very much for your help. Now i think i understand what i did wrong. Everything i thought i did to open a pull request to your branch was actually on your branch on your pull request to scikit-learn. 
+
+Is it an idea also to checkout 61dcb38 and create a new branch and just push the new branch to yours? (but im not doing anything right now)
+
+Im not sure about the assert statement. I thought with pytest raise(match='ValueError') will already does the job. I can check that out.
+",
+issue_comment,4857214024,34412,dev,ENH add Array API to newton-cg in LogisticRegression,https://github.com/scikit-learn/scikit-learn/pull/34412#issuecomment-4857214024,"For reference, I triggered an Intel GPU CI run against this branch at:
+
+- https://github.com/probabl-ai/scikit-learn-intel-workflow/actions/runs/28529563393
+
+and all tests are green.",
+review_comment,127390920,9059,dev,[MRG+1] Added support for sparse multilabel y for Nearest neighbor classifiers,https://github.com/scikit-learn/scikit-learn/pull/9059#discussion_r127390920,"multiclass-multioutput.
+
+Multilabel == binary multioutput.",
+review,4600169508,34416,dev,FIX SequentialFeatureSelector backward auto-selection always removes one feature (#26369),https://github.com/scikit-learn/scikit-learn/pull/34416#pullrequestreview-4600169508,"Thanks for reviving this old PR!
+
+I like the solution and testing you added.
+
+Please address (with a comment on why not change is needed or a code change) the comments you asked for from Copilot. Then mark them as resolved. If you aren't sure what to do/what trade off to use then add a comment explaining what your thinking is.
+
+",
+review_comment,3913168488,34868,dev,TST: Use assert functions from `array-api-extra`,https://github.com/scikit-learn/scikit-learn/pull/34868#discussion_r3913168488,"this is also incorrect, as `incremental_count` is the actual value being tested. I'm not sure what the history is here, but it looks like L965 has been changed from its original intent — restoring it to the original state of b2d6a30aeb155948fbee1c3a9f0ce9cb5bfb278a, this passes:
+
+```diff
+diff --git a/sklearn/utils/tests/test_extmath.py b/sklearn/utils/tests/test_extmath.py
+index b11c420445..fda803eada 100644
+--- a/sklearn/utils/tests/test_extmath.py
++++ b/sklearn/utils/tests/test_extmath.py
+@@ -964,3 +964,3 @@ def test_incremental_variance_ddof():
+                 incremental_count = batch.shape[0]
+-                sample_count = np.full(batch.shape[1], batch.shape[0], dtype=np.int32)
++                sample_count = batch.shape[0]
+             else:
+@@ -976,3 +976,3 @@ def test_incremental_variance_ddof():
+             assert_almost_equal(incremental_variances, calculated_variances, 6)
+-            assert_array_equal(sample_count, incremental_count)
++            assert_array_equal(incremental_count, sample_count)
+```",
+review_comment,150459788,9834,dev,[MRG] Extending MDS to new data,https://github.com/scikit-learn/scikit-learn/pull/9834#discussion_r150459788,precomputed case?,
+review_comment,3497536700,34412,dev,ENH add Array API to newton-cg in LogisticRegression,https://github.com/scikit-learn/scikit-learn/pull/34412#discussion_r3497536700,Okay I think this `method` is not used for lbfgs so we don't need to worry about the array API vs numpy coefs case.,
+review_comment,127199317,9059,dev,[MRG+1] Added support for sparse multilabel y for Nearest neighbor classifiers,https://github.com/scikit-learn/scikit-learn/pull/9059#discussion_r127199317,Merge not quite right.,
+review,1231567039,16236,dev,FEA Group aware Time-based cross validation,https://github.com/scikit-learn/scikit-learn/pull/16236#pullrequestreview-1231567039,The tests are currently quite hard to read. Tests need to be easy to read and understand that they are testing what we believe to be true.,
+review_comment,3493780016,34412,dev,ENH add Array API to newton-cg in LogisticRegression,https://github.com/scikit-learn/scikit-learn/pull/34412#discussion_r3493780016,"You can use this here https://github.com/scikit-learn/scikit-learn/blob/main/sklearn/utils/_array_api.py#L1026-L1037
+An import will be needed for this to work correctly.
+```suggestion
+                    return _ravel(grad.T, xp=xp)
+```",
+review_comment,3915750315,34681,test,ENH Newton-CD part 8: add multinomial NewtonCDSolver,https://github.com/scikit-learn/scikit-learn/pull/34681#discussion_r3915750315,"If we no longer interested in them, we should remove the (commented) time measurements",
+issue_comment,5716200553,34885,test,FIX HGBT sample_weight zero-weight and integer equivalence,https://github.com/scikit-learn/scikit-learn/pull/34885#issuecomment-5716200553,"> I think I need all the fixes jointly to get the equivalence test to pass on this estimator.
+> 
+> But let me try to split this PR to isolate the changes we all agree we want so that we can proceeed incrementally.
+
+I think we all agree on filtering out the zero weight rows ? I like @lorentzenchr [suggestion](https://github.com/scikit-learn/scikit-learn/pull/34885#discussion_r3980759641) to simply remove them from the start.
+
+> That being said, making our tree code less sensitive to rounding errors on tied splits might be considered a good property? I am not that sure if it's an improvement or not.
+
+I think it could be a good idea to soft break ties, but due to the extra complexity, I agree that we should probably do this later. Besides it would be nice if HGBT’s TreeGrower and the decision trees in sklearn.tree used a similar tie-breaking rule to tackle https://github.com/scikit-learn/scikit-learn/issues/23728.
+
+> Maybe using random data in the estimator check makes us handle more edge cases than necessary
+
+Yes, maybe we are too demanding here. IIRC, the tiny dataset (15 rows) used by the `check_sample_weight_equivalence_*` does not help, the test passed with a more reasonable number of rows.
+Maybe we could use a custom sample weight equivalence check for HGBT estimators (I'm thinking `check_sample_weight_equivalence` with more rows), and mention this more appropriate check in PER_ESTIMATOR_XFAIL_CHECKS.",
+review_comment,2467742037,32511,test,Remove unnecessary dtype conversion from pairwise_distances_argmin_*,https://github.com/scikit-learn/scikit-learn/pull/32511#discussion_r2467742037,"```suggestion
+- :func:`.metrics.pairwise.pairwise_distances_argmin` and
+  :func:`metrics.pairwise.pairwise_distances_argmin_min` no longer
+```
+to be consistent with formatting in other whatsnew entries",
+review,4276858376,32761,test,Quantile transformer sample weight,https://github.com/scikit-learn/scikit-learn/pull/32761#pullrequestreview-4276858376,Thanks for the PR. I have some comments and questions,
+review_comment,2126822673,31413,test,FEAT (alt3) allow setting auto routed strategy on objects,https://github.com/scikit-learn/scikit-learn/pull/31413#discussion_r2126822673,Maybe it should be called `_auto_requests_enabled` ?,
+review,5165528252,34902,test,FIX Fix OpenML dataset parsing with pandas>=3.1.0.dev0,https://github.com/scikit-learn/scikit-learn/pull/34902#pullrequestreview-5165528252,Thanks for the fix,
+review_comment,3951111146,34558,test,Harden tree loading mechanisms to avoid segfaults due to loading corrupted data,https://github.com/scikit-learn/scikit-learn/pull/34558#discussion_r3951111146,"```suggestion
+    def __setstate__(self, state):
+        """"""Set state with some array validation.""""""
+```",
+review_comment,3925480577,34680,test,PRF Small optimization of the object path in encoders,https://github.com/scikit-learn/scikit-learn/pull/34680#discussion_r3925480577,"It's faster to do `uniques_set = counter.keys()`, which should work since `keys()` already returns a set.
+
+```python
+In [6]: counter = Counter(range(100_000))
+
+In [7]: %timeit set(counter)
+1.19 ms ± 6.81 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+
+In [8]: %timeit counter.keys()
+30.3 ns ± 0.0317 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
+```",
+issue_comment,5817871757,34935,test,PRF Mitigation heuristics for HGB scalability,https://github.com/scikit-learn/scikit-learn/pull/34935#issuecomment-5817871757,"I asked cursor to evaluate this PR's effect to restore sklearn's ability to compete with xgboost and lightgbm in small to medium datasets on my Apple M4 laptop (4 performance cores and 10 efficiency cores in total) with default settings and the **very good news is that the Pareto front of sklearn's implementation can now closely match the fronts of the alternative competitors**:
+
+<img width=""1919"" height=""1176"" alt=""image"" src=""https://github.com/user-attachments/assets/1666ae84-daeb-4a72-bd02-7a5ba8618de6"" />
+
+The different points on those plots represent different hyperparameter settings (learning rate, number of trees, number of leavers per trees...).
+
+I will try to find the time to review the diff carefully soon but this is very promising.
+
+Note: it might be interesting to study how can catboost reach such a high ROC-AUC on the tiny problem but this is not related to the focus of the present PR.",
+review_comment,3951064876,34558,test,Harden tree loading mechanisms to avoid segfaults due to loading corrupted data,https://github.com/scikit-learn/scikit-learn/pull/34558#discussion_r3951064876,"```suggestion
+    """"""TreePredictor.__setstate__ should check out-of-bounds child indices.
+```
+Absolute nitpick. But I can't resist to tell that I don't like (double) quotes in places where it is never rendered.",
+review_comment,4026734620,34314,test,API Developer API for customising metadata requests in consumers,https://github.com/scikit-learn/scikit-learn/pull/34314#discussion_r4026734620,"I feel this is too much detail for a user/developer guide, I would remove it.",
+issue_comment,4154945515,32042,test,"DEP deprecate LogisticRegression parameters C, introduce new regularization parameter alpha",https://github.com/scikit-learn/scikit-learn/pull/32042#issuecomment-4154945515,"I'm most worried about the scaling change, as it might change behavior in a way that is difficult for users to compensate.
+
+What problem are we trying to solve with this scaling?
+
+Is there a place that I can read that analyses it? I must confess that I haven't followed what's behind it.
+
+I, for one, have been dreaming of changing the scaling of the penalty for Ridge so that it is scaled by the trace of the Gram matrix. Simple theory tells us that it is a natural scaling that is easy to compute and understand.
+
+Is there a similar scaling for logistic-regression? With an l1 penalty I can think about the minimum regularization parameters for which we have a first non zero coefficient (I don't know the formula out of the top of my head, but I can find it if people are interested). However, this is only for l1 penalty, and l2 is more frequenty used.
+",
+review_comment,3853301696,31413,test,FEAT (alt3) allow setting auto routed strategy on objects,https://github.com/scikit-learn/scikit-learn/pull/31413#discussion_r3853301696,"I think since we document the use of `requests.predict.add_auto_request(""groups"")` in `examples/miscellaneous/plot_metadata_routing.py` this will have to be a public method.
+I've added a short docstring.",
+issue_comment,5067995826,31413,test,FEAT (alt3) allow setting auto routed strategy on objects,https://github.com/scikit-learn/scikit-learn/pull/31413#issuecomment-5067995826,"When the estimator is a simple consumer (like `DefaultRoutingClassifier4` in the introduction https://github.com/scikit-learn/scikit-learn/pull/31413#issue-3083055944), a developer can declare auto requests (say `sample_weight` in `fit` in this example) via:
+```python
+class SimpleConsumer(BaseMyClassifier):
+    def get_metadata_routing(self):
+        requests = super().get_metadata_routing() # MetadataRequest
+        requests.fit.add_auto_request(""sample_weight"")
+        return requests
+```
+However for a router-consumer, we need something like:
+```python
+class RouterConsumer(BaseMyClassifier):
+    def get_metadata_routing(self):
+        router = super().get_metadata_routing() # MetadataRouting
+        # auto-request for this meta-estimator's own fit
+        router._self_request.fit.add_auto_request(""sample_weight"")
+        return router
+```
+Using `router.fit.add_auto_request(""sample_weight"")` here would throw an AttributeError, see script below.
+Is this okay for a developer API ? We are exposing the private attribute `_self_request`, and the code to write is different for a simple consumer and a router, which may be confusing to explain in the docs ?
+
+<details>
+
+<summary>Script</summary>
+
+```python
+import numpy as np
+from sklearn import set_config, config_context
+from sklearn.base import BaseEstimator, ClassifierMixin, MetaEstimatorMixin, clone
+from sklearn.utils.metadata_routing import (
+    MetadataRouter,
+    MethodMapping,
+    process_routing,
+    get_routing_for_object,
+)
+
+set_config(enable_metadata_routing=True)
+
+
+class Child(ClassifierMixin, BaseEstimator):
+    def fit(self, X, y, sample_weight=None):
+        self.classes_ = np.unique(y)
+        self.sw_ = sample_weight
+        return self
+
+    def predict(self, X):
+        return np.zeros(len(X), dtype=int)
+
+
+class RouterConsumer(MetaEstimatorMixin, ClassifierMixin, BaseEstimator):
+    def __init__(self, estimator=None):
+        self.estimator = estimator
+
+    def fit(self, X, y, sample_weight=None, **params):
+        routed = process_routing(self, ""fit"", sample_weight=sample_weight, **params)
+        self.sw_ = sample_weight
+        self.estimator_ = clone(self.estimator).fit(X, y, **routed.estimator.fit)
+        self.classes_ = self.estimator_.classes_
+        return self
+
+    def predict(self, X):
+        return self.estimator_.predict(X)
+
+    def get_metadata_routing(self):
+        router = (
+            MetadataRouter(owner=self.__class__.__name__)
+            .add_self_request(self)
+            .add(
+                estimator=self.estimator,
+                method_mapping=MethodMapping().add(caller=""fit"", callee=""fit""),
+            )
+        )
+        # auto-request for this meta-estimator's own fit
+        router._self_request.fit.add_auto_request(""sample_weight"")
+        return router
+
+
+est = RouterConsumer(estimator=Child())
+router = est.get_metadata_routing()
+print(""type(router) ="", type(router).__name__)
+print(""hasattr fit on router?"", hasattr(router, ""fit""))
+print(
+    ""_self_request is"",
+    type(router._self_request).__name__ if router._self_request else None,
+)
+
+print(""\n=== A) router.fit.add_auto_request('sample_weight') ==="")
+try:
+    router.fit.add_auto_request(""sample_weight"")
+    print(""NO ERROR — unexpected success"")
+except Exception as e:
+    print(f""ERROR as expected: {type(e).__name__}: {e}"")
+
+print(""\n=== B) router._self_request.fit.add_auto_request('sample_weight') ==="")
+router2 = RouterConsumer(estimator=Child()).get_metadata_routing()
+print(""pending _auto_requests:"", router2._self_request.fit._auto_requests)
+print(""before actualize, fit.requests:"", dict(router2._self_request.fit.requests))
+
+est3 = RouterConsumer(estimator=Child().set_fit_request(sample_weight=False))
+
+print(""\npolicy=empty:"")
+with config_context(metadata_request_policy=""empty""):
+    r = get_routing_for_object(est3)
+    print(""  self fit.requests:"", dict(r._self_request.fit.requests))
+    print(""  pending auto:"", r._self_request.fit._auto_requests)
+
+print(""policy=auto:"")
+with config_context(metadata_request_policy=""auto""):
+    r = get_routing_for_object(est3)
+    print(""  self fit.requests:"", dict(r._self_request.fit.requests))
+    print(""  pending auto:"", r._self_request.fit._auto_requests)
+    print(
+        ""  consumes fit sample_weight?"",
+        ""sample_weight"" in r.consumes(""fit"", [""sample_weight""]),
+    )
+```
+
+</details>
+",
+review_comment,2721835369,32511,test,Remove unnecessary dtype conversion from pairwise_distances_argmin_*,https://github.com/scikit-learn/scikit-learn/pull/32511#discussion_r2721835369,"Small nit:
+Since `record` is not used again, this can be simplified as
+```suggestion
+    with warnings.catch_warnings(action=""error"", category=DataConversionWarning):
+```",
+issue_comment,5354279670,34776,test,FIX use averaged inverted CDF in DummyRegressor median and quantile,https://github.com/scikit-learn/scikit-learn/pull/34776#issuecomment-5354279670,"Thanks for opening this PR. I am undecided if we need to do this.
+
+I think you can use something like
+```python
+DummyRegressor(strategy=""constant"", constant=np.median(y)).fit(X, y).constant_  # [[3.]]
+```
+to get the same result/control exactly how things are done. In addition this only effects people who use integer weights and an even number of samples.
+
+All this makes me think this is quite an edge case, with a viable work around.",
+review_comment,120882985,9059,test,[MRG+1] Added support for sparse multilabel y for Nearest neighbor classifiers,https://github.com/scikit-learn/scikit-learn/pull/9059#discussion_r120882985,"but it may not be necessary. if you fix it, it needs a test.",
+review_comment,3689323637,34314,test,API Developer API for customising metadata requests in consumers,https://github.com/scikit-learn/scikit-learn/pull/34314#discussion_r3689323637,"```suggestion
+        get_declared_metadata_request_values : Get declared metadata request values per consuming method.
+```",
+review_comment,1058326217,16236,test,FEA Group aware Time-based cross validation,https://github.com/scikit-learn/scikit-learn/pull/16236#discussion_r1058326217,"we should not need to store full lists... I think this is sufficient:
+```py
+seen_groups = set()
+prev_group = None
+for group in groups:
+    if group != prev_group and group in seen_groups:
+        raise ValueError(""The groups should be contiguous"")
+    prev_group = group
+```",
+issue_comment,1712514846,25360,test,DOC Example MLPRegressor as an autoencoder,https://github.com/scikit-learn/scikit-learn/pull/25360#issuecomment-1712514846,"@ogrisel I just push my improved example. However, I am wondering if we should actually add this example since in a real use-case we would advocate to use a dedicated neural network library (e.g. `keras`) to tackle such problem.
+
+I would second your opinion either way on this one.",
+review_comment,3498918574,34398,test,ENH Add Huber loss to HistGradientBoostingRegressor,https://github.com/scikit-learn/scikit-learn/pull/34398#discussion_r3498918574,Maybe just merge it with the test above?,
+review_comment,3680972664,34314,test,API Developer API for customising metadata requests in consumers,https://github.com/scikit-learn/scikit-learn/pull/34314#discussion_r3680972664,"```suggestion
+    class-level requests are build. See the :ref:`metadata routing developing guide
+    <customise_metadata_requests_in_consumers>` for examples on how to use it.
+```",
+review_comment,3878026404,34824,test,TST Add array API scorer and cross_validate integration tests,https://github.com/scikit-learn/scikit-learn/pull/34824#discussion_r3878026404,"```suggestion
+    xp, device = _array_api_for_tests(namespace, device_name)
+```
+
+Nitpick. The context is #34543.
+",
+review_comment,3673922149,31413,test,FEAT (alt3) allow setting auto routed strategy on objects,https://github.com/scikit-learn/scikit-learn/pull/31413#discussion_r3673922149,Done in https://github.com/scikit-learn/scikit-learn/pull/31413/changes/2d9fd20dffea4e148abb8db8df231292f62ca7fe.,
+review_comment,4037753248,34663,test,MNT Remove dead negative-value-as-missing convention for categorical features in HGB,https://github.com/scikit-learn/scikit-learn/pull/34663#discussion_r4037753248,"Agreed, but should we add an explicit test case that negative values are not treated as missing anymore instead?",
+issue_comment,5619679733,34802,test,:lock: :robot: CI Update lock files for lint CI build(s) :lock: :robot:,https://github.com/scikit-learn/scikit-learn/pull/34802#issuecomment-5619679733,Closing as it was superseded by #34918,
+review_comment,2106124097,31413,test,FEAT (alt3) allow setting auto routed strategy on objects,https://github.com/scikit-learn/scikit-learn/pull/31413#discussion_r2106124097,"I was thinking about the term ""auto request"". 
+
+I don't think it makes a difference to the third party developers, that this is accomplished setting requests via the instance. Also, auto-requests is only the second of two points mentioned here. The result of both is an automated routing for the users.
+
+In the docs (specifically here) we could talk about different ways to define an automated _routing_ (instead of request).
+
+And to distinguish `set_predict_request(groups=True)` and `requests.predict.add_auto_request(""groups"")`, I think the latter could instead be called  `add_auto_routing`.",
+review_comment,121953956,9059,test,[MRG+1] Added support for sparse multilabel y for Nearest neighbor classifiers,https://github.com/scikit-learn/scikit-learn/pull/9059#discussion_r121953956,"Indeed it was, thanks.",
+review_comment,123499941,9059,test,[MRG+1] Added support for sparse multilabel y for Nearest neighbor classifiers,https://github.com/scikit-learn/scikit-learn/pull/9059#discussion_r123499941,Same here,
+review_comment,3887912153,34558,test,Harden tree loading mechanisms to avoid segfaults due to loading corrupted data,https://github.com/scikit-learn/scikit-learn/pull/34558#discussion_r3887912153,"I like the `validate_model` idea more. Maybe even a `__sklearn_validate_model__` such that each estimator can define what it means to be valid.
+
+Maybe a hot take, but I think we can do the bounds check during `apply/predict` and then do a `with nogil` to raise a `IndexError`. At a glance, it does not look too bad, but it'll require some benchmarking.",
+review_comment,2128679748,31413,test,FEAT (alt3) allow setting auto routed strategy on objects,https://github.com/scikit-learn/scikit-learn/pull/31413#discussion_r2128679748,"What I had meant was that the instance-level default setting doesn't need to be a feature to begin with. 
+
+Not sure if I get this right, but what I am thinking is: 
+Third party developers could only make use of it if they also have a `set_config` in their library that also checks if auto requests are enabled. The same for developers who customise a scikit-learn compatible estimator for their corporate project.
+
+And then the functionality of setting instance level requests would be very limited. It's very similar to setting defaults at class level, only it adds a extra little condition of having auto requests enabled in the configs, no? :woman_shrugging: ",
+review,1001435510,16236,test,FEA Group aware Time-based cross validation,https://github.com/scikit-learn/scikit-learn/pull/16236#pullrequestreview-1001435510,I think that we could an additional test with a bit more groups and imbalanced size such that we can make sure of the behaviour that I describe in one of the comments (equal test size/unequal group size vs. unequel test size/equal group size),
+review_comment,2322182829,31413,test,FEAT (alt3) allow setting auto routed strategy on objects,https://github.com/scikit-learn/scikit-learn/pull/31413#discussion_r2322182829,"Should we add a docstring or make it private ? `params` here is just a list of str (metadata names) ?
+",
+review_comment,3978769884,34885,test,FIX HGBT sample_weight zero-weight and integer equivalence,https://github.com/scikit-learn/scikit-learn/pull/34885#discussion_r3978769884,"Why `abs`, can the gain be negative? If it's just guarding against a 0 gain that with rounding errors is negative, then I'd rather do:
+
+```suggestion
+            if gain > best_gain + GAIN_FEATURE_TIE_SCALE * max(0, gain, best_gain):
+```",
+review,2860888844,31413,test,FEAT (alt3) allow setting auto routed strategy on objects,https://github.com/scikit-learn/scikit-learn/pull/31413#pullrequestreview-2860888844,"I have looked through this PR and commented a bit, some questions, some suggestions for improvement.
+
+As I think I have missed this: What is the difference in usage for the users between this PR, and the previous version of defining an auto request strategy (#31401)? Edit from 5 days later: I of cause meant the difference between this PR and what #31401 was supposed to become, not what it is.",
+review_comment,499243091,16236,test,FEA Group aware Time-based cross validation,https://github.com/scikit-learn/scikit-learn/pull/16236#discussion_r499243091,"I think we do not use docstrings for tests.
+```suggestion
+    # The GroupTimeSeriesSplit with no group should raise an Error
+```",
+issue_comment,5410663133,32511,test,Remove unnecessary dtype conversion from pairwise_distances_argmin_*,https://github.com/scikit-learn/scikit-learn/pull/32511#issuecomment-5410663133,"Hi @IgnacioJPickering, great to hear back from you! Since quite some effort already went into this, I think it would be nice to see it merged.
+Feel free to ping me once you addressed my comments above.",
+issue_comment,703251215,16236,test,FEA Group aware Time-based cross validation,https://github.com/scikit-learn/scikit-learn/pull/16236#issuecomment-703251215,"Maybe I would also add the test case I pointed out above:
+```ipython
+In [47]: groups = np.array(['a', 'a', 'a', 'a', 'a', 'a', 'b', 'b', 'b', 'b', 'b', 'c', 'c', 'c', 'c', 'd', 'd', 'd'])
+In [48]: gtss = GroupTimeSeriesSplit(n_splits=3)
+
+In [49]: for train_idx, test_idx in gtss.split(groups, groups=groups):
+    ...:     print(train_idx, test_idx)
+    ...:     print(groups[train_idx], groups[test_idx])
+    ...:     print()
+    ...:
+[0 1 2 3 4 5] [6 7 8 9 10]
+['a' 'a' 'a' 'a' 'a' 'a'] ['b' 'b' 'b' 'b' 'b']
+
+[0 1 2 3 4 5 6 7 8 9 10] [11 12 13 14]
+['a' 'a' 'a' 'a' 'a' 'a' 'b' 'b' 'b' 'b' 'b'] ['c' 'c' 'c' 'c']
+
+[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14] [15 16 17]
+['a' 'a' 'a' 'a' 'a' 'a' 'b' 'b' 'b' 'b' 'b' 'c' 'c' 'c' 'c'] ['d' 'd' 'd']
+```",
+review_comment,3913070640,34868,test,TST: Use assert functions from `array-api-extra`,https://github.com/scikit-learn/scikit-learn/pull/34868#discussion_r3913070640,"this should be simplified
+
+```diff
+diff --git a/sklearn/tests/test_multiclass.py b/sklearn/tests/test_multiclass.py
+index bc90157669..19e245dcc6 100644
+--- a/sklearn/tests/test_multiclass.py
++++ b/sklearn/tests/test_multiclass.py
+@@ -288,3 +288,3 @@ def test_ovr_multiclass():
+         y_pred = clf.predict(np.array([[0, 0, 4]]))[0]
+-        assert_array_equal([""eggs""], y_pred)
++        assert y_pred == ""eggs""
+
+@@ -308,3 +308,3 @@ def test_ovr_binary():
+         y_pred = clf.predict(np.array([[0, 0, 4]]))[0]
+-        assert_array_equal([""eggs""], y_pred)
++        assert y_pred == ""eggs""
+         if hasattr(base_clf, ""decision_function""):
+```",
+review_comment,3230435392,32761,test,Quantile transformer sample weight,https://github.com/scikit-learn/scikit-learn/pull/32761#discussion_r3230435392,I believe the list is alphabetically ordered,
