@@ -1,9 +1,0 @@
-README.md
-pyproject.toml
-src/prbottleneck/__init__.py
-src/prbottleneck/config.py
-src/prbottleneck.egg-info/PKG-INFO
-src/prbottleneck.egg-info/SOURCES.txt
-src/prbottleneck.egg-info/dependency_links.txt
-src/prbottleneck.egg-info/requires.txt
-src/prbottleneck.egg-info/top_level.txt
