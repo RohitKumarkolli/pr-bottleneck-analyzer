@@ -7,3 +7,5 @@ pydantic
 scikit-learn
 streamlit 
 plotly
+langgraph 
+langchain-core
