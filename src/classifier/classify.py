@@ -87,17 +87,14 @@ SELECT c.repo, c.kind, c.id, c.pr_number, c.author, c.body, c.review_state, c.ra
 FROM comments c
 JOIN prs p ON p.repo = c.repo AND p.number = c.pr_number
 """
-# non-bot, non-empty, not written by the PR author
-_ELIGIBLE = "c.author_is_bot = 0 AND c.author IS NOT p.author AND length(trim(c.body)) > 0"
-
+_ELIGIBLE = "c.author_is_bot = 0 AND c.author IS NOT p.author AND length(trim(c.body)) > 0 AND p.state = 'open'"
 
 def fetch_eligible(conn, repo):
-    return conn.execute(_SELECT + f" WHERE c.repo=? AND {_ELIGIBLE}", (repo,)).fetchall()
-
+    return conn.execute(_SELECT + f" AND c.repo=? AND {_ELIGIBLE}", (repo,)).fetchall()
 
 def fetch_one(conn, repo, kind, cid):
-    return conn.execute(_SELECT + " WHERE c.repo=? AND c.kind=? AND c.id=?",
-                        (repo, kind, cid)).fetchone()
+    return conn.execute(_SELECT + " AND c.repo=? AND c.kind=? AND c.id=?",
+                        (repo, kind, cid)).fetchall()[0] if True else None
 
 
 def fetch_unlabeled(conn, repo, limit=None):

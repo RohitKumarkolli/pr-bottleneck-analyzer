@@ -21,7 +21,9 @@ class PRContext:
 def gather_context(repo: str, number: int) -> PRContext:
     conn = get_conn()
     pr = conn.execute(
-        "SELECT * FROM pr_metrics WHERE repo=? AND number=?", (repo, number)).fetchone()
+        """SELECT m.*, p.title
+           FROM pr_metrics m JOIN prs p ON p.repo=m.repo AND p.number=m.number
+           WHERE m.repo=? AND m.number=?""", (repo, number)).fetchone()
     if pr is None:
         raise ValueError(f"No metrics for PR #{number}. Run compute.py first.")
 

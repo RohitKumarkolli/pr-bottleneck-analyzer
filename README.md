@@ -1,53 +1,53 @@
 # Automated Code-Review & PR Bottleneck Analyzer
 
 > Tracks GitHub PR idle time, classifies review comments with an LLM, and
-> surfaces review bottlenecks for engineering managers.
+> surfaces review bottlenecks for engineering managers — with an AI agent
+> that diagnoses why a PR is stuck and drafts a nudge.
 
-## Problem
-
-Engineering managers can't see *where* code review stalls: which PRs are idle,
-who is the bottleneck, and whether review time goes to trivial nitpicks or
-substantive design discussion.
-
-## Solution
-<!-- One-paragraph summary + demo GIF (Milestone 7) -->
-
-## Architecture
-<!-- Diagram goes here (Milestone 7). Draft flow:
-GitHub API -> Ingestion -> SQLite -> Metrics engine -> LLM classifier (Groq)
-                                          |                  |
-                                          +------> Streamlit dashboard
-GitHub Actions (daily cron) triggers ingestion + metrics
-LangGraph agent: stalled PR + classified comments -> summary + nudge draft -->
-
-## Tech Stack
-
-Python · GitHub REST API · SQLite · Groq (Llama 3.3) · Streamlit · LangGraph · GitHub Actions
-
-## Target Repository
-
-Analyzed: `scikit-learn/scikit-learn`
+**[Live Dashboard →](your-streamlit-link-here)**
 
 ## Results
-<!-- Fill in as milestones complete -->
 | Metric | Value |
-| -------- | ------- |
-| PRs ingested | TBD |
-| Review comments analyzed | TBD |
-| Classifier accuracy (n=50 hand-labeled) | TBD |
-| Median time-to-first-review | TBD |
-| % of PRs idle > 7 days | TBD |
+|---|---|
+| PRs analyzed | 608 (scikit-learn/scikit-learn) |
+| Review comments ingested | 6,660 (326 bot, excluded from analysis) |
+| Median time-to-first-review | 17.8h |
+| Median time-to-merge | 64.7h |
+| Open non-draft PRs stalled (>7d idle) | 49/86 (57%) |
+| Comments classified | [your real number] |
+| Stalled-PR agent reports generated | 205/206 |
+| Daily pipeline runtime (incremental) | ~3.5-4.5 min (vs. ~12 min first run) |
+
+## What it does
+[2-3 sentences, plain language]
+
+## Architecture
+[diagram]
+
+## Design Decisions
+[pull from every milestone's "decision points" — REST vs GraphQL, hybrid schema,
+human-event idle time, LangGraph typed state, commit-back vs cache, etc.]
+
+## Known Limitations
+[the honest list above]
 
 ## Setup
-<!-- Milestone 7 -->
+[clone, .env, pip install, run order]
 
-## Roadmap
+## Tech Stack
+Python · GitHub REST API · SQLite · Groq (openai/gpt-oss-20b) · Streamlit · LangGraph · GitHub Actions
 
-- [x] M0 Setup
-- [ ] M1 Ingestion
-- [ ] M2 Metrics
-- [ ] M3 LLM classifier
-- [ ] M4 Dashboard
-- [ ] M5 Automation
-- [ ] M6 Agent layer
-- [ ] M7 Polish
+```mermaid
+flowchart LR
+    A[GitHub API] --> B[Ingestion]
+    B --> C[(SQLite)]
+    C --> D[Metrics Engine]
+    C --> E[LLM Classifier - Groq]
+    D --> F[Streamlit Dashboard]
+    E --> F
+    D --> G[LangGraph Agent]
+    E --> G
+    G --> F
+    H[GitHub Actions
+daily cron] -.triggers.-> B
+```
